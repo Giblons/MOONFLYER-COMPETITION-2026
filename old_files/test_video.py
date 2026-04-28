@@ -12,10 +12,10 @@ MODEL2_PATH = "/home/giblon/object-detection/runs/classify/vcor_visdrone_world_a
 DET_MODEL_PATH = "/home/giblon/object-detection/runs/detect/visdrone_detection/weights/best.pt"
 
 VIDEOS = [
-    "/home/giblon/Downloads/dataset1.mp4",
-    "/home/giblon/Downloads/dataset2.mp4",
-    "/home/giblon/Downloads/dataset3.mp4",
-    "/home/giblon/Downloads/dataset4.mp4",
+        "./dataset_video/dataset1.mp4",
+        "./dataset_video/dataset2.mp4",
+        #"./dataset_video/dataset3.mp4",
+        #"./dataset_video/dataset4.mp4"
 ]
 
 # Color map for drawing bounding boxes per color (BGR format)

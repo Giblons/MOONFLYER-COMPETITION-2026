@@ -12,16 +12,16 @@ def test_four_models():
     model_paths = [
         "/home/giblon/object-detection/runs/detect/visdrone_detection/weights/best.pt",
         "/home/giblon/object-detection/runs/detect/visdrone_world/weights/best.pt",
-        "/home/giblon/object-detection/runs/detect/visdrone_world2/weights/best.pt",
-        "/home/giblon/object-detection/runs/detect/visdrone_world3/weights/best.pt"
+        #"/home/giblon/object-detection/runs/detect/visdrone_world2/weights/best.pt",
+        #"/home/giblon/object-detection/runs/detect/visdrone_world3/weights/best.pt"
     ]
 
     # Define the paths to your 4 downloaded YouTube videos
     video_paths = [
-        "/home/giblon/Downloads/dataset1.mp4",
-        "/home/giblon/Downloads/dataset2.mp4",
-        "/home/giblon/Downloads/dataset3.mp4",
-        "/home/giblon/Downloads/dataset4.mp4"
+        "./dataset_video/dataset1.mp4",
+        "./dataset_video/dataset2.mp4",
+        #"./dataset_video/dataset3.mp4",
+        #"./dataset_video/dataset4.mp4"
     ]
 
     # Ensure we have the same number of models and videos
