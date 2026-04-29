@@ -11,8 +11,8 @@ def train_obb_model():
     # Train the model on the VisDrone dataset
     results = model.train(
         data='dota8.yaml',
-        epochs=50,
-        imgsz=640,
+        epochs=100,
+        imgsz=224,
         batch=16,
         name='visdrone_obb',
         device=0
@@ -40,7 +40,7 @@ def train_world_model():
     results = model.train(
         data='VisDrone.yaml',
         epochs=100,
-        imgsz=640,
+        imgsz=224,
         batch=16,
         name='visdrone_world',
         device=0
@@ -86,7 +86,7 @@ def detection():
     model = YOLO("yolo26n.pt")
     
     # Train the model
-    results = model.train(data='VisDrone.yaml', epochs=100, imgsz=640, batch=16, name='visdrone_detection', device=0)
+    results = model.train(data='VisDrone.yaml', epochs=100, imgsz=224, batch=16, name='visdrone_detection', device=0)
     
     # 1. Export the trained model to NCNN format
     print("Exporting trained model to NCNN...")
