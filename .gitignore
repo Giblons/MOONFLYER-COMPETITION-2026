@@ -30,4 +30,8 @@ video test/
 # Ignore IDE files
 .vscode/
 .idea/
-OLD_FILES.zip
+# Ignore large backup folders and archives
+OLD_FILES/
+*.zip
+*.tar.gz
+*.mp4
