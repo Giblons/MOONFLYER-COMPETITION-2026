@@ -338,7 +338,7 @@ def train_yolo_world():
         batch=4,
         patience=50,
         # --- Augmentation ---
-        mosaic=1.0,
+        mosaic=1.0, 
         close_mosaic=20,         # Stable convergence at end of training
         mixup=0.15,
         scale=0.9,
