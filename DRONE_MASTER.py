@@ -246,6 +246,7 @@ def train_stage1_detection():
         label_smoothing=0.05,    # Smooth hard labels slightly
         name="visdrone_detection",
         device=0,
+        deterministic=False,
     )
     print("\n✅ Stage 1 complete!")
     print(f"   Model saved: {DET_MODEL_PATH}")
@@ -298,6 +299,7 @@ def train_stage2_color():
         name="vcor_color_classifier",
         device=0,
         task="classify",
+        deterministic=False,
     )
     print("\n✅ Stage 2 complete!")
     print(f"   Model saved: {CLS_MODEL_PATH}")
@@ -352,6 +354,7 @@ def train_yolo_world():
         label_smoothing=0.05,    # Slight smoothing
         name="visdrone_world_color",
         device=0,
+        deterministic=False,
     )
     print("\n✅ YOLO-World (Option B) training complete!")
     print(f"   Model saved: {WORLD_MODEL_PATH}")
