@@ -416,20 +416,42 @@ def run_2stage_video():
 
             results = det_model(frame, verbose=False)[0]
             for box in results.boxes:
+                cls_id = int(box.cls[0])
+
+                # Only colour-classify actual vehicles.
+                # Pedestrians / bicycles / motors have no "car colour".
+                # VisDrone IDs: 3=car, 4=van, 5=truck, 8=bus
+                if cls_id not in [3, 4, 5, 8]:
+                    continue
+
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
+
+                # Skip cars clipped by the frame edge — their crop is incomplete
+                # and will likely contain road/sky instead of the car roof.
+                h, w = frame.shape[:2]
+                if x1 <= 0 or y1 <= 0 or x2 >= w or y2 >= h:
+                    continue
+
+                # Skip cars that are too small to classify reliably (far away).
+                # Below ~32x32 px the crop is mostly noise at 120m altitude.
+                crop_w, crop_h = x2 - x1, y2 - y1
+                if crop_w < 32 or crop_h < 32:
+                    continue
+
                 crop = frame[y1:y2, x1:x2]
                 if crop.size == 0: continue
 
-                cls_res    = cls_model(crop, verbose=False)[0]
-                color      = cls_res.names[cls_res.probs.top1]
-                conf       = cls_res.probs.top1conf.item()
+                cls_res = cls_model(crop, verbose=False)[0]
+                color   = cls_res.names[cls_res.probs.top1]
+                conf    = cls_res.probs.top1conf.item()
 
                 if color not in target_colors:
-                    continue  # Skip colors not selected by pilot
+                    continue
 
                 box_color = COLOR_MAP.get(color, DEFAULT_BOX_COLOR)
                 label     = f"{color} {conf:.0%}"
                 draw_box_info(frame, x1, y1, x2, y2, label, box_color)
+
 
             cv2.imshow("2-Stage Drone POV | Q=next video  ESC=quit", frame)
             key = cv2.waitKey(delay) & 0xFF
@@ -462,6 +484,10 @@ def run_world_trained():
     print(f"Detecting colors: {target_colors}")
 
     model = YOLO(WORLD_MODEL_PATH)
+    # YOLO-World models lose their custom text classes when saved to .pt.
+    # Re-applying set_classes() restores the color+vehicle prompt vocabulary.
+    model.set_classes(WORLD_CLASSES)
+    print(f"   Active classes: {model.names}")
     for video_path in TEST_VIDEOS:
         if not os.path.exists(video_path):
             print(f"⚠️  Skipping (not found): {video_path}")
@@ -484,7 +510,11 @@ def run_world_trained():
                 conf       = box.conf.item()
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-                color_word = label_text.split()[0] if label_text.split() else "unknown"
+                # label_text is now e.g. "black car", "white van"
+                # Split to get just the color word for filtering
+                parts = label_text.split()
+                color_word = parts[0] if len(parts) >= 2 else "unknown"
+
                 if color_word not in target_colors:
                     continue
 
