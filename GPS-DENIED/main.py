@@ -18,6 +18,7 @@ def main():
     parser.add_argument("--geojson", default="map.geojson", help="Path to GeoJSON vector database")
     parser.add_argument("--port", default="/dev/ttyS0", help="Serial port for NMEA spoofing")
     parser.add_argument("--baud", type=int, default=115200, help="Serial baud rate")
+    parser.add_argument("--video", type=str, default=None, help="Path to an optional video file to use instead of live camera")
     args = parser.parse_args()
 
     print("[Core] Initializing VBN System...")
@@ -30,7 +31,7 @@ def main():
     transformer = CoordinateTransformer()
 
     # Initialize multi-threaded architecture
-    camera_thread = CameraCaptureThread(camera_index=0, width=1920, height=1080, fps=30)
+    camera_thread = CameraCaptureThread(camera_index=0, width=1920, height=1080, fps=30, video_path=args.video)
     nmea_thread = NMEAEmitterThread(port=args.port, baudrate=args.baud, hz=5)
 
     # Start threads
