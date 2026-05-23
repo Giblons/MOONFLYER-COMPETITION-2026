@@ -1,0 +1,14 @@
+[Unit]
+Description=UAV Flight Ground Data Handler Daemon (RC Override & NMEA GPS)
+After=network.target
+
+[Service]
+Type=simple
+User=rizky
+WorkingDirectory=/home/rizky/HANDLER
+ExecStart=/home/rizky/HANDLER/run_data_handler.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

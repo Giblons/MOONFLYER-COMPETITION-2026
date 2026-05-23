@@ -1,0 +1,14 @@
+[Unit]
+Description=Unified UAV Flight Software Daemon (VGPS & Tracker)
+After=network.target
+
+[Service]
+Type=simple
+User=rizky
+WorkingDirectory=/home/rizky/HANDLER
+ExecStart=/home/rizky/HANDLER/run_all.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
