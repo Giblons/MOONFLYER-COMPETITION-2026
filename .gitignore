@@ -36,5 +36,4 @@ OLD_model/
 *.zip
 *.tar.gz
 *.mp4
-uav_vision_map(1).mbtiles
-uav_vision_map.mbtiles
+*.mbtiles
